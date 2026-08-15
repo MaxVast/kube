@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: my-website-deployment
+
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: my-website
+
+  template:
+    metadata:
+      labels:
+        app: my-website
+
+    spec:
+      containers:
+        - name: my-website
+          image: localhost:5000/my_first_image
+          ports:
+          - containerPort: 8080
