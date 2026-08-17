@@ -161,3 +161,48 @@ The application is based on the application from the getting started tutorial at
 with filters
 
 ``` $ minikube kubectl -- get events --field-selector=involvedObject.kind=Pod ```
+
+23. Deploy service kube
+
+``` $ minikube kubectl -- apply -f site-ecommerce-service.yaml ```
+
+24. Display all services on kube
+
+``` $ minikube kubectl -- get services ```
+
+25. Display informations from one service
+
+``` $ minikube kubectl -- describe deploy/my-website-service ```
+
+26. Check service work with the pods
+
+``` $ minikube kubectl -- exec deploy/my-website-deployment -- wget -O - http://my-website-service.default.svc.cluster.local  ```
+
+27. Expose the service locally (port-forward)
+
+``` $ minikube kubectl port-forward service/my-website-service 3000:80 ```
+
+The application is then accessible on [http://localhost:3000](http://localhost:3000).
+
+> ⚠️ This command is intended for local development/debugging. It blocks the terminal while running (press Ctrl+C to stop) and is not suitable for production use.
+
+28. Display Volume and  Volume Claim
+
+``` $ minikube kubectl -- get pv ```
+
+``` $ minikube kubectl -- get pvc ```
+
+# Kubernetes Service Types
+
+| Service Type | Accessibility | Use Case | Notes |
+|---|---|---|---|
+| **ClusterIP** | Internal to the cluster only | Internal applications, single stable entry point for a set of pods | Default service type if none is specified. Not reachable from outside the cluster. |
+| **NodePort** | Internal and external (via `<NodeIP>:<NodePort>`) | Testing, limited access, direct access to pods without a load balancer | Opens a static port (range **30000–32767**) on every node. Simple but not recommended for production traffic. |
+| **LoadBalancer** | External (via an external load balancer) | Public-facing applications, high availability | Provisions a cloud provider load balancer (AWS ELB, GCP LB, Azure LB, etc.). Not available on bare local clusters like Minikube without an add-on (e.g. `minikube tunnel`). |
+| **ExternalName** | External (via DNS) | Redirecting to external services, traffic migration | No proxying or port mapping — it maps the service name to an external DNS name via a CNAME record. No selectors or endpoints involved. |
+
+## Quick reference
+
+- **ClusterIP → NodePort → LoadBalancer** can be thought of as increasing levels of external exposure — each type builds on the previous one under the hood.
+- **Ingress** is not a service type itself, but it's often used alongside `ClusterIP` services to expose multiple services externally through a single entry point, with routing rules (paths, hostnames) and often TLS termination.
+- On managed cloud clusters (EKS, GKE, AKS), `LoadBalancer` is the most common choice for production. On local clusters (Minikube, kind), it's mainly used for testing via workarounds like `minikube tunnel`.

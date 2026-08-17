@@ -17,7 +17,14 @@ spec:
 
     spec:
       containers:
-        - name: my-website
-          image: localhost:5000/my_first_image
-          ports:
-          - containerPort: 8080
+      - name: my-website
+        image: localhost:5000/my_first_image
+        volumeMounts:
+        - name: my-website-volume
+          mountPath: /etc/todos
+        ports:
+        - containerPort: 3000
+      volumes:
+        - name: my-website-volume
+          persistentVolumeClaim:
+            claimName: my-website-pvc
