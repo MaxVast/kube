@@ -19,11 +19,32 @@ spec:
       containers:
       - name: my-website
         image: localhost:5000/my_first_image
+        env:
+        - name: MYSQL_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: my-website-configmap
+              key: MYSQL_HOST
+        - name: MYSQL_USER
+          valueFrom:
+            configMapKeyRef:
+              name: my-website-configmap
+              key: MYSQL_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: my-website-secret
+              key: MYSQL_PASSWORD
+        - name: MYSQL_DB
+          valueFrom:
+            configMapKeyRef:
+              name: my-website-configmap
+              key: MYSQL_DB
         volumeMounts:
         - name: my-website-volume
           mountPath: /etc/todos
         ports:
-        - containerPort: 3000
+        - containerPort: 8080
       volumes:
         - name: my-website-volume
           persistentVolumeClaim:

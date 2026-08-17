@@ -192,6 +192,27 @@ The application is then accessible on [http://localhost:3000](http://localhost:3
 
 ``` $ minikube kubectl -- get pvc ```
 
+29. Display configmaps
+
+``` $ minikube kubectl -- get configmap ```
+
+30. Create Secret
+
+``` $ minikube kubectl -- create secret generic my-website-secret --from-literal=MYSQL_PASSWORD=password ```
+
+31. Display secrets
+
+``` $ minikube kubectl -- get secrets ```
+
+32. Enable ingress
+
+``` $ minikube addons enable ingress ```
+
+33. Dislay ingress
+
+``` $ minikube kubectl -- get ingress ```
+
+
 # Kubernetes Service Types
 
 | Service Type | Accessibility | Use Case | Notes |

@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-website-configmap
+data:
+  MYSQL_HOST: mysql
+  MYSQL_USER: root
+  MYSQL_DB: todos
